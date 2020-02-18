@@ -15,7 +15,7 @@ typedef char String20[STRING20];
 typedef char String30[STRING30];
 typedef char String15[STRING15];
 
-typedef struct Users{
+typedef struct User{
 	int userId;
 	String20 name;
 	String10 password;
@@ -23,7 +23,7 @@ typedef struct Users{
 	long contactNum;
 }Users;
 
-typedef struct Items{
+typedef struct Item{
 	int productId;
 	int quantity;
 	int sellerId;
@@ -34,7 +34,7 @@ typedef struct Items{
 	
 }Items;
 
-typedef struct Transactions{
+typedef struct Transaction{
 	int month;
 	int day;
 	int year;
@@ -43,6 +43,9 @@ typedef struct Transactions{
 	
 }Transactions;
 
+//typedef struct User Users;
+//typedef struct Item Items;
+//typedef struct Transaction Transactions;
 
 void mainMenu(Users aUser[], Items aItem[][MAX_ITEMS], Transactions aTransaction[], int numUser){
 	int option = 0;
@@ -101,9 +104,9 @@ void registerUser(Users aUser[], Items aItem[][MAX_ITEMS], Transactions aTransac
 
 
 int main(){
-	struct Users aUser[MAX_USERS];
-	struct Items aItem[MAX_USERS][MAX_ITEMS];
-	struct Transactions aTransaction[MAX_USERS];
+	Users aUser[MAX_USERS];
+	Items aItem[MAX_USERS][MAX_ITEMS];
+	Transactions aTransaction[MAX_USERS];
 	int numUsers = 0;
 	int option; 
 	int i;
