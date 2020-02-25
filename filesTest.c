@@ -46,61 +46,78 @@ typedef struct Transactions{
 
 
 int main(){
-	struct Users aUser[MAX_USERS] = {
-		{
-			1, "Tyrone", "123456", "49 Macopa st.", 9153001
-		},
-		{
-			2, "Justin", "666667777", "10 Don manuel", 12345
-		}
-	};
+	struct Users aUser[MAX_USERS];
+//	 = {
+//		{
+//			1, "Tyrone", "123456", "49 Macopa", 9153001
+//		},
+//		{
+//			2, "Justin", "666667777", "10 Don manuel", 12345
+//		}
+//	};
 	struct Items aItem[MAX_USERS][MAX_ITEMS];
 	struct Transactions aTransaction[MAX_USERS];
 	int numUsers = aUser[1].userId;
 	int option; 
-	int i;
-	FILE *fp_user;
+	int i = 0;
+	int userId;
+	String20 name;
+	String10 password;
+	String30 address;
+	long contactNum;
 	
-	fp_user = fopen("Users.txt", "w");
+	
+	FILE *fp_userAppend, *fp_userRead;
+	
+//	fp_userAppend = fopen("Users.txt", "w");
+	fp_userRead = fopen("Users.txt", "r");
 	
 	
 	printf("Shopping App\n");
-	
-	for(i = 0; i < numUsers; i++){
-		fprintf(fp_user, "%d %s\n", aUser[i].userId, aUser[i].password);
-		fprintf(fp_user, "%s\n%s",aUser[i].name, aUser[i].address);
-		fprintf(fp_user, "%d\n\n",aUser[i].contactNum);
+
+
+
+	if(fp_userRead == NULL){
+		printf("no data");
+	}
+
+	i = 0;
+	while(!feof(fp_userRead)){
+		
+		fscanf(fp_userRead, "%d %s\n", &aUser[i].userId, aUser[i].password);
+		fgets(aUser[i].name, STRING20, fp_userRead);
+		
+		aUser[i].name[strlen(aUser[i].name) - 1] = '\0';
+		fgets(aUser[i].address, STRING30, fp_userRead);
+		aUser[i].address[strlen(aUser[i].address) - 1] = '\0';
+		
+		fscanf(fp_userRead,"%d\n",&aUser[i].contactNum);
+		//fgets(contactNum, 15, fp_userRead);
+		
+		printf("ID: %d\npass: %s\nname: %s\naddress: %s\ncontact: %ld\n\n",aUser[i].userId, aUser[i].password, 
+														aUser[i].name, aUser[i].address, aUser[i].contactNum);
+		i++;
+		
 	}
 	
 	
-//	do{
-//		printf("[1] Register\n[2] Login\n[3] Exit\n");
-//		printf("Input: ");
-//		scanf("%d", &option);
-//		fflush(stdin);
-//		switch(option){
-//			case 1:
-//				registerUser(aUser, aItem, aTransaction, &numUsers);
-//				break;
-//			case 2:
-//				printf("login\n");
-//				break;
-//			case 3:
-//				for(i = 0; i < numUsers; i++){
-//					fprintf(fp_user, "%d %s\n", aUser[i].userId, aUser[i].password);
-//					fprintf(fp_user, "%s\n%s",aUser[i].name, aUser[i].address);
-//					fprintf(fp_user, "%d\n\n",aUser[i].contactNum);
-//				}
-//				
-//				break;
-//			default:
-//				break;
-//		}
-//		
-//	}while(option >= 1 && option <= 2);
+	
+	
+//	while(fscanf(fp_userRead, "%d %s %s %s %d " ,&userId, password, name, address, &contactNum) == 5){
+//			fprintf(stdout, "user id: %d\npassword: %s\nname: %s \naddress: %s\n",userId, password, name, address);
+//			
+//	}	
+	
+
+//	for(i = 0; i < numUsers; i++){
+//		fprintf(fp_userAppend, "%d %s\n", aUser[i].userId, aUser[i].password);
+//		fprintf(fp_userAppend, "%s\n%s\n",aUser[i].name, aUser[i].address);
+//		fprintf(fp_userAppend, "%d\n\n",aUser[i].contactNum);
+//	}
+	
 	 
-	fclose(fp_user);
-	return 0;
+	fclose(fp_userRead);
+
 	
 	return 0;
 }
