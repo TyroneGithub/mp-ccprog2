@@ -15,7 +15,7 @@ typedef char String20[STRING20];
 typedef char String30[STRING30];
 typedef char String15[STRING15];
 
-typedef struct Users{
+typedef struct User{
 	int userId;
 	String20 name;
 	String10 password;
@@ -23,7 +23,7 @@ typedef struct Users{
 	long contactNum;
 }Users;
 
-typedef struct Items{
+typedef struct Item{
 	int productId;
 	int quantity;
 	int sellerId;
@@ -34,14 +34,22 @@ typedef struct Items{
 	
 }Items;
 
-typedef struct Transactions{
+typedef struct Date{
 	int month;
 	int day;
 	int year;
+	
+}Dates;
+
+typedef struct Transaction{
+	Dates transDate;
+	Items aItem[5];
 	int buyerId;
 	int sellerId;
+	int total;
 	
 }Transactions;
+
 
 
 
@@ -55,7 +63,6 @@ int main(){
 //			2, "Justin", "666667777", "10 Don manuel", 12345
 //		}
 //	};
-	struct Items aItem[MAX_USERS][MAX_ITEMS];
 	struct Transactions aTransaction[MAX_USERS];
 	int numUsers = aUser[1].userId;
 	int option; 
@@ -85,17 +92,18 @@ int main(){
 	while(!feof(fp_userRead)){
 		
 		fscanf(fp_userRead, "%d %s\n", &aUser[i].userId, aUser[i].password);
-		fgets(aUser[i].name, STRING20, fp_userRead);
 		
+		fgets(aUser[i].name, STRING20, fp_userRead);
 		aUser[i].name[strlen(aUser[i].name) - 1] = '\0';
+		
 		fgets(aUser[i].address, STRING30, fp_userRead);
 		aUser[i].address[strlen(aUser[i].address) - 1] = '\0';
 		
 		fscanf(fp_userRead,"%d\n",&aUser[i].contactNum);
-		//fgets(contactNum, 15, fp_userRead);
-		
+	
 		printf("ID: %d\npass: %s\nname: %s\naddress: %s\ncontact: %ld\n\n",aUser[i].userId, aUser[i].password, 
 														aUser[i].name, aUser[i].address, aUser[i].contactNum);
+														
 		i++;
 		
 	}

@@ -34,20 +34,25 @@ typedef struct Item{
 	
 }Items;
 
-typedef struct Transaction{
+typedef struct Date{
 	int month;
 	int day;
 	int year;
+	
+}Dates;
+
+typedef struct Transaction{
+	Dates transDate;
+	Items aItem[5];
 	int buyerId;
 	int sellerId;
+	int total;
 	
 }Transactions;
 
-//typedef struct User Users;
-//typedef struct Item Items;
-//typedef struct Transaction Transactions;
 
-void mainMenu(Users aUser[], Items aItem[][MAX_ITEMS], Transactions aTransaction[], int numUser){
+
+void mainMenu(Users aUser[], Transactions aTransaction[], int numUser){
 	int option = 0;
 	do{
 		printf("Main Menu\n");
@@ -74,7 +79,7 @@ void mainMenu(Users aUser[], Items aItem[][MAX_ITEMS], Transactions aTransaction
 	
 }
 
-void registerUser(Users aUser[], Items aItem[][MAX_ITEMS], Transactions aTransaction[], int *userId){
+void registerUser(Users aUser[], Transactions aTransaction[], int *userId){
 	
 	String10 num;
 	int id;
@@ -85,16 +90,20 @@ void registerUser(Users aUser[], Items aItem[][MAX_ITEMS], Transactions aTransac
 	aUser[id - 1].userId = *userId;
 	printf("Enter name: ");
 	fgets(aUser[id - 1].name, STRING20, stdin);
+	aUser[id - 1].name[strlen(aUser[id - 1].name) - 1] = '\0'; 
+	
 	printf("Enter password: ");
 	fgets(aUser[id - 1].password, STRING10, stdin);
+	aUser[id - 1].password[strlen(aUser[id - 1].password) - 1] = '\0';
+	
 	printf("Enter address: ");
 	fgets(aUser[id - 1].address, STRING30, stdin);
+	aUser[id - 1].address[strlen(aUser[id - 1].address) - 1] = '\0';
+	
 	printf("Enter contact number: ");
+	scanf("%ld", &aUser[id - 1].contactNum);
 
-	fgets(num, STRING10, stdin);
-	aUser[id - 1].contactNum = strtol(num, NULL, 0);
-
-	mainMenu(aUser, aItem, aTransaction, *userId);
+	mainMenu(aUser, aTransaction, *userId);
 	
 	
 }
@@ -105,7 +114,6 @@ void registerUser(Users aUser[], Items aItem[][MAX_ITEMS], Transactions aTransac
 
 int main(){
 	Users aUser[MAX_USERS];
-	Items aItem[MAX_USERS][MAX_ITEMS];
 	Transactions aTransaction[MAX_USERS];
 	int numUsers = 0;
 	int option; 
@@ -124,7 +132,7 @@ int main(){
 		fflush(stdin);
 		switch(option){
 			case 1:
-				registerUser(aUser, aItem, aTransaction, &numUsers);
+				registerUser(aUser, aTransaction, &numUsers);
 				break;
 			case 2:
 				printf("login\n");
@@ -132,7 +140,7 @@ int main(){
 			case 3:
 				for(i = 0; i < numUsers; i++){
 					fprintf(fp_user, "%d %s\n", aUser[i].userId, aUser[i].password);
-					fprintf(fp_user, "%s\n%s",aUser[i].name, aUser[i].address);
+					fprintf(fp_user, "%s\n%s\n",aUser[i].name, aUser[i].address);
 					fprintf(fp_user, "%d\n\n",aUser[i].contactNum);
 				}
 				
