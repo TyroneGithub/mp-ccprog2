@@ -54,7 +54,7 @@ typedef struct Transaction{
 
 
 int main(){
-	struct Users aUser[MAX_USERS];
+	Users aUser[MAX_USERS];
 //	 = {
 //		{
 //			1, "Tyrone", "123456", "49 Macopa", 9153001
@@ -63,7 +63,7 @@ int main(){
 //			2, "Justin", "666667777", "10 Don manuel", 12345
 //		}
 //	};
-	struct Transactions aTransaction[MAX_USERS];
+	Transactions aTransaction[MAX_USERS];
 	int numUsers = aUser[1].userId;
 	int option; 
 	int i = 0;
