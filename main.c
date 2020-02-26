@@ -106,13 +106,13 @@ void registerUser(Users aUser[], Transactions aTransaction[], int *numUsers){
 	String10 num;
 	int id;
 	
-	
-	
-	
+	(*numUsers)++;
 	
 	do{
+		
 		printf("Enter User ID: ");
 		scanf("%d", &id);
+		
 	}while(!search(aUser, id, *numUsers));
 
 
@@ -135,8 +135,8 @@ void registerUser(Users aUser[], Transactions aTransaction[], int *numUsers){
 	
 	printf("Enter contact number: ");
 	scanf("%ld", &aUser[(*numUsers) - 1].contactNum);
-	(*numUsers)++;
-	mainMenu(aUser, aTransaction, *numUsers);
+	
+	//mainMenu(aUser, aTransaction, *numUsers);
 	
 	
 }
@@ -151,6 +151,7 @@ int main(){
 	int numUsers = 0;
 	int option; 
 	int i = 0;
+	long len;
 	FILE *fp_user;
 	
 	FILE *fp_userWrite, *fp_userRead;
@@ -158,37 +159,43 @@ int main(){
 	fp_userRead = fopen("Users.txt", "r");
 	
 	
-//	if(fp_userRead == NULL)
-		fp_userWrite = fopen("Users.txt", "w");
-//		
-//	else
-//		fp_userWrite = fopen("Users.txt", "a");
+	if(fp_userRead == NULL){
+		printf("File could not be read\n");
+	}	
+	else{
 		
-	
-	while(!feof(fp_userRead)){
+//		https://stackoverflow.com/questions/30133210/check-if-file-is-empty-or-not-in-c/30133326
+
+		fseek(fp_userRead, 0, SEEK_END);
+		len = (long)ftell(fp_userRead);
+		if(len > 0){
+			rewind(fp_userRead);
+			while(!feof(fp_userRead)){
 		
-		fscanf(fp_userRead, "%d %s\n", &aUser[i].userId, aUser[i].password);
+				fscanf(fp_userRead, "%d %s\n", &aUser[i].userId, aUser[i].password);
+				
+				fgets(aUser[i].name, STRING20, fp_userRead);
+				aUser[i].name[strlen(aUser[i].name) - 1] = '\0';
+				
+				fgets(aUser[i].address, STRING30, fp_userRead);
+				aUser[i].address[strlen(aUser[i].address) - 1] = '\0';
+				
+				fscanf(fp_userRead,"%d\n",&aUser[i].contactNum);
+			
+		//		printf("ID: %d\npass: %s\nname: %s\naddress: %s\ncontact: %ld\n\n",aUser[i].userId, aUser[i].password, 
+		//														aUser[i].name, aUser[i].address, aUser[i].contactNum);
+																
+				i++;
 		
-		fgets(aUser[i].name, STRING20, fp_userRead);
-		aUser[i].name[strlen(aUser[i].name) - 1] = '\0';
-		
-		fgets(aUser[i].address, STRING30, fp_userRead);
-		aUser[i].address[strlen(aUser[i].address) - 1] = '\0';
-		
-		fscanf(fp_userRead,"%d\n",&aUser[i].contactNum);
-	
-//		printf("ID: %d\npass: %s\nname: %s\naddress: %s\ncontact: %ld\n\n",aUser[i].userId, aUser[i].password, 
-//														aUser[i].name, aUser[i].address, aUser[i].contactNum);
-														
-		i++;
-		
+			}
+		}
 	}
-	
+			
 	numUsers = i;
-	printf("%d\n", numUsers);
+//	printf("%d\n", numUsers);
 	
 	printf("Shopping App\n");
-	
+	fp_userWrite = fopen("Users.txt", "w");
 	do{
 		printf("[1] Register\n[2] Login\n[3] Exit\n");
 		printf("Input: ");
@@ -203,12 +210,11 @@ int main(){
 				break;
 			case 3:
 				for(i = 0; i < numUsers ; i++){
-//					fprintf(fp_userWrite, "%d %s\n", aUser[i].userId, aUser[i].password);
-//					fprintf(fp_userWrite, "%s\n%s\n",aUser[i].name, aUser[i].address);
-//					fprintf(fp_userWrite, "%d\n\n",aUser[i].contactNum);
-					printf("ID: %d\npass: %s\nname: %s\naddress: %s\ncontact: %ld\n\n",aUser[i].userId, aUser[i].password, 
-													aUser[i].name, aUser[i].address, aUser[i].contactNum);
-													
+					fprintf(fp_userWrite, "%d %s\n", aUser[i].userId, aUser[i].password);
+					fprintf(fp_userWrite, "%s\n%s\n",aUser[i].name, aUser[i].address);
+					fprintf(fp_userWrite, "%d\n\n",aUser[i].contactNum);
+//					printf("ID: %d\npass: %s\nname: %s\naddress: %s\ncontact: %ld\n\n",aUser[i].userId, aUser[i].password, 
+//													aUser[i].name, aUser[i].address, aUser[i].contactNum);
 													
 				}
 				
