@@ -131,8 +131,6 @@ void login(Users aUser[], int numUsers){
 	
 }
 
-
-
 int main(){
 	Users aUser[MAX_USERS] 
 	 = {
