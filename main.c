@@ -1,61 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-#define STRING10 12
-#define STRING20 22
-#define STRING15 17	
-#define STRING30 32
-#define MAX_USERS 100
-#define MAX_ITEMS 20
+#include "shopping.h"
 
 
-typedef char String10[STRING10];
-typedef char String20[STRING20];
-typedef char String30[STRING30];
-typedef char String15[STRING15];
-
-typedef struct Item{
-	int productId;
-	int quantity;
-	int sellerId;
-	float price;
-	String20 name;
-	String15 category;
-	String30 description;
-	
-}Items;
-
-
-typedef struct User{
-	int userId;
-	String20 name;
-	String10 password;
-	String30 address;
-	long contactNum;
-	int numItems;
-	Items item[MAX_ITEMS];
-	Items cart[10];
-}Users;
-
-
-typedef struct Date{
-	int month;
-	int day;
-	int year;
-	
-}Dates;
-
-typedef struct Transaction{
-	Dates transDate;
-	Items aItem[5];
-	int buyerId;
-	int sellerId;
-	float total;
-	
-}Transactions;
-
-void userMenu(Users aUser[], int userIndex);
 
 void removeEnter(char str[]){
 	str[strlen(str) - 1] = '\0';
@@ -173,26 +121,38 @@ void addItem(Users aUser[], int index){
 	
 }
 
-void displayItems(Users aUser[], int index){
+void printItems(Users aUser[], int index, int itemIndex){
 	
-	int i, j; 
-//	int index;
-	int totalItems;
-//	index = searchUser(aUser, numUsers, userId);
-	totalItems = aUser[index].numItems;
-	
-	for(i = 0; i < totalItems; i++){
-		printf("|%3d|", aUser[index].item[i].productId);
-		printf("|%-20s|", aUser[index].item[i].name);
-		printf("|%-15s|", aUser[index].item[i].category);
-		printf("|%5.2f|", aUser[index].item[i].price);
-		printf("|%3d|", aUser[index].item[i].quantity);
+		printf("|%3d|", aUser[index].item[itemIndex].productId);
+		printf("|%-20s|", aUser[index].item[itemIndex].name);
+		printf("|%-15s|", aUser[index].item[itemIndex].category);
+		printf("|%8.2f|", aUser[index].item[itemIndex].price);
+		printf("|%3d|", aUser[index].item[itemIndex].quantity);
 		printf("\n");
 		
-	}
+}
+
+void displayItems(Users aUser[], int index){
+	int i;
+	
+	printf("|%-3s||%-20s||%-15s||%-8s||%3s|", "ID", "Name", "Category", "Price", "Quantity");
+	printf("\n");
+	for(i = 0; i < aUser[index].numItems; i++)
+		printItems(aUser, index, i);
 	
 }
 
+void displayLowStock(Users aUser[], int index){
+	int i;
+	
+	printf("|%-3s||%-20s||%-15s||%-8s||%3s|", "ID", "Name", "Category", "Price", "Quantity");
+	printf("\n"); 
+	for(i = 0; i < aUser[index].numItems; i++){
+		if(aUser[index].item[i].quantity <= 5)
+			printItems(aUser, index, i);
+	}
+	
+}
 
 
 void sellMenu(Users aUser[], int userIndex){
@@ -213,9 +173,10 @@ void sellMenu(Users aUser[], int userIndex){
 				displayItems(aUser,userIndex);
 				break;
 			case 4:
+				displayLowStock(aUser, userIndex);
 				break;
 			case 5:
-				userMenu(aUser, userIndex);
+//				userMenu(aUser, userIndex);
 				break;
 		
 		}
@@ -228,7 +189,7 @@ void userMenu(Users aUser[], int userIndex){
 	int option = 0;
 	do{
 		printf("Main Menu\n");
-		printf("[1] Sell Menu\n[2] Buy Menu\n[3]Exit\n");
+		printf("[1]Sell Menu\n[2]Buy Menu\n[3]Exit\n");
 		printf("Input: ");
 		scanf("%d", &option);
 		fflush(stdin);

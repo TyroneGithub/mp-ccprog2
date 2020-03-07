@@ -1,54 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-#define STRING10 11
-#define STRING20 21
-#define STRING15 16	
-#define STRING30 31
-#define MAX_USERS 100
-#define MAX_ITEMS 20
+#include "shopping.h"
 
 
-typedef char String10[STRING10];
-typedef char String20[STRING20];
-typedef char String30[STRING30];
-typedef char String15[STRING15];
 
-typedef struct User{
-	int userId;
-	String20 name;
-	String10 password;
-	String30 address;
-	long contactNum;
-}Users;
 
-typedef struct Item{
-	int productId;
-	int quantity;
-	int sellerId;
-	float price;
-	String20 name;
-	String15 category;
-	String30 description;
-	
-}Items;
-
-typedef struct Date{
-	int month;
-	int day;
-	int year;
-	
-}Dates;
-
-typedef struct Transaction{
-	Dates transDate;
-	Items aItem[5];
-	int buyerId;
-	int sellerId;
-	int total;
-	
-}Transactions;
 
 
 void swap(Users *x, Users *y){
@@ -92,7 +49,7 @@ int searchUser(Users aUser[], int numUsers, int userInput){
 			mid = (low + high) / 2;
 		}
 		else if(userInput < aUser[mid].userId){
-			low = mid - 1;
+			high = mid - 1;
 			mid = (low + high) / 2;
 		}
 		if(low > high)

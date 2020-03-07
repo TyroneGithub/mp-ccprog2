@@ -1,0 +1,9 @@
+1
+1
+15
+100
+hotdog
+food
+edible
+3
+5
