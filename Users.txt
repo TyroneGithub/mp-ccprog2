@@ -1,25 +1,5 @@
-1 helo
-tyrone
-2
-3
-
-2 hello
-tyrone
-a
-99
-
-3 hi
-justin
-a
-11
-
-4 hello
-john
-a
-99
-
-8 hello
-haaad
-99
-99
+1 hello
+Tyrone
+59 macopa
+99321
 

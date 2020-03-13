@@ -3,7 +3,7 @@
 #define STRING15 17	
 #define STRING30 32
 #define MAX_USERS 100
-#define MAX_ITEMS 20
+#define MAX_ITEMS 3
 
 
 typedef char String10[STRING10];
@@ -28,7 +28,7 @@ typedef struct User{
 	String20 name;
 	String10 password;
 	String30 address;
-	long contactNum;
+	int contactNum;
 	int numItems;
 	Items item[MAX_ITEMS];
 	Items cart[10];
@@ -51,4 +51,4 @@ typedef struct Transaction{
 	
 }Transactions;
 
-void userMenu(Users aUser[], int userIndex);
+void userMenu(Users *aUser);

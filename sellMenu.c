@@ -66,6 +66,22 @@ int searchUser(Users aUser[], int numUsers, int userInput){
 }
 
 
+int searchItem(Items item[], int numItems, int itemInput){
+	int i;
+	int found = 0;
+	int itemIndex = -1;
+	
+	for(i = 0; i < numItems && found == 0 ; i++){
+		if(itemInput == item[i].productId){
+			itemIndex = i;
+			found = 1;
+		}	
+	}
+			
+	return itemIndex;
+}
+
+
 void addItem(Users aUser[], int index){
 //	int index;
 	int itemIndex;
@@ -114,42 +130,119 @@ void addItem(Users aUser[], int index){
 //}
 
 
-void printItems(Items item[], int itemIndex){
+void printItems(Items *item){
 	
-	int i, j; 
-//	int index;
-	int totalItems;
-//	index = searchUser(aUser, numUsers, userId);
-//	totalItems = aUser[index].numItems;
-	
-	printf("|%3d|", item[itemIndex].productId);
-	printf("|%-20s|", item[itemIndex].name);
-	printf("|%-15s|", item[itemIndex].category);
-	printf("|%5.2f|", item[itemIndex].price);
-	printf("|%3d|", item[itemIndex].quantity);
+	printf("|%3d|", item->productId);
+	printf("|%-20s|", item->name);
+	printf("|%-15s|", item->category);
+	printf("|%5.2f|", item->price);
+	printf("|%3d|", item->quantity);
 	printf("\n");
 	
-	
-	
 }
 
-void displayItems(Users aUser[], int index){
+void displayItems(Items item[], int numItems){
 	int i;
 	
-	for(i = 0; i < aUser[index].numItems; i++)
-		printItems(&aUser[index].item[i], i);
+	for(i = 0; i < numItems; i++)
+		printItems(&item[i]);
 	
 }
 
-void displayLowStock(Users aUser[], int index){
+void displayLowStock(Items item[], int numItems){
 	int i; 
-//	for(i = 0; i < aUser[index].numItems; i++){
-//		if(aUser[index].item[i].quantity <= 5)
-//			printItems(aUser, index, i);
-//
-//	}
+	for(i = 0; i < numItems; i++){
+		if(item[i].quantity <= 5)
+			printItems(&item[i]);
+
+	}
 	
 }
+
+
+void itemQuantity(Items *item, int quantity, char operation){
+	
+	
+	switch(operation){
+		case '+':
+			item->quantity += quantity;
+			break;
+		case '-':
+			item->quantity -= quantity;
+			break;
+	}
+//	return item->quantity;
+}
+
+
+void editStock(Items item[], int numItems){
+	int itemIndex;
+	int itemOption;
+	int option;
+	int quantity;
+	float price;
+	String20 name;
+	String15 category;
+	String30 description;
+	
+	
+	displayItems(item, numItems);
+	
+	printf("Enter item to edit: ");
+	scanf("%d", &itemOption);
+	itemIndex = searchItem(item, numItems, itemOption);
+
+	
+	do{
+		printf("[1]Replenish\n[2]Change Price\n[3]Change item name\n");
+		printf("[4]Change Category\n[5]Change Description\n[6]Finish Editing\n");
+		printf("Input: ");
+		scanf("%d", &option);
+		fflush(stdin);
+		
+		switch(option){
+			case 1:
+				printf("Enter number of items you want to add: ");
+				scanf("%d", &quantity);
+				fflush(stdin);
+				itemQuantity(&item[itemIndex], quantity, '+');
+				break;
+			case 2:
+				printf("Enter new price: ");
+				scanf("%f", &price);
+				fflush(stdin);
+				item[itemIndex].price = price; 
+				break;
+			case 3:
+				printf("Enter new item name: ");
+				fgets(name, STRING20, stdin);
+				removeEnter(name);
+				strcpy(item[itemIndex].name, name);
+				break;
+			case 4:
+				printf("Enter new category: ");
+				fgets(category, STRING15, stdin);
+				removeEnter(category);
+				strcpy(item[itemIndex].category, category);
+				break;
+			case 5:
+				printf("Enter new description: ");
+				fgets(description, STRING30, stdin);
+				removeEnter(description);
+				strcpy(item[itemIndex].description, description);
+				break;
+			case 6:
+				break;
+			default:
+				break;
+		}
+		
+	}while(option != 6);
+	
+	
+}
+
+
 
 
 int main(){
@@ -160,18 +253,23 @@ int main(){
 	int i = 0;
 	int index;
 	
+	
+	
+	
 	aUser[0].userId = 1;
-	aUser[0].numItems = 0;
+	aUser[0].numItems = 1;
 	
 	index = searchUser(aUser, numUsers, aUser[0].userId);
-//	strcpy(aUser[0].item[0].category, "food");
-//	strcpy(aUser[0].item[0].description, "edible");
-//	strcpy(aUser[0].item[0].name, "hotdog");
-//	
-//	
-//	aUser[0].item[0].price = 15;
-//	aUser[0].item[0].productId = 1;
-//	aUser[0].item[0].quantity = 15;
+	
+	
+	strcpy(aUser[0].item[0].category, "food");
+	strcpy(aUser[0].item[0].description, "edible");
+	strcpy(aUser[0].item[0].name, "hotdog");
+	
+	
+	aUser[0].item[0].price = 15;
+	aUser[0].item[0].productId = 1;
+	aUser[0].item[0].quantity = 15;
 	
 	
 
@@ -186,11 +284,13 @@ int main(){
 				addItem(aUser, index);
 				break;
 			case 2:
+				editStock(aUser[index].item, aUser[index].numItems);
 				break;
 			case 3:
-				displayItems(aUser, index);
+				displayItems(aUser[index].item, aUser[index].numItems);
 				break;
 			case 4:
+				displayLowStock(aUser[index].item, aUser[index].numItems);
 				break;
 			case 5:
 				break;
