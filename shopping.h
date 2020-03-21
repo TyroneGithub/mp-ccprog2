@@ -3,8 +3,8 @@
 #define STRING15 17	
 #define STRING30 32
 #define MAX_USERS 100
-#define MAX_ITEMS 3
-
+#define MAX_ITEMS 10
+#define MAX_CART 10
 
 typedef char String10[STRING10];
 typedef char String20[STRING20];
@@ -30,8 +30,9 @@ typedef struct User{
 	String30 address;
 	int contactNum;
 	int numItems;
+	int numCart;
 	Items item[MAX_ITEMS];
-	Items cart[10];
+	Items cart[MAX_CART];
 }Users;
 
 
@@ -47,8 +48,10 @@ typedef struct Transaction{
 	Items aItem[5];
 	int buyerId;
 	int sellerId;
+	int numItems;
 	float total;
+
 	
 }Transactions;
 
-void userMenu(Users *aUser);
+void userMenu(Users *aUser, int numUsers, int index);

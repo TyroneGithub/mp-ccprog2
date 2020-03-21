@@ -1,5 +1,48 @@
 1 1
-Hotdog
-Food
-Edible
-15 150
+T-SHIRT
+FOOD
+edible
+15 100.00
+
+2 1
+COUPLE SHIRT
+FOOD
+edible
+35 100.00
+
+3 1
+HELLO SHIRT
+HEALTH
+hello
+35 90.00
+
+4 2
+SHAMPOO
+HEALTH
+hello
+100 90.00
+
+5 3
+BIOGESIC
+FOOD
+hello
+95 90.00
+
+6 3
+FACE MASK
+HEALTH
+hello
+35 90.00
+
+7 3
+ANTIBOTIC
+HEALTH
+hello
+50 90.00
+
+8 3
+MEDICINE
+HEALTH
+hello
+40 90.00
+
