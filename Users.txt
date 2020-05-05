@@ -1,15 +1,35 @@
-1 hello
-k
-k
-9
+35 nlc111
+Nats
+Pasay
+19999999
 
-2 j
-j
-j
-99
+123 A123456
+AAA
+Quezon City
+12345678
 
-3 h
-h
-h
-88
+329 abc
+NCheng
+DLSU
+85244611
+
+456 xxx909
+BBB
+Taft Ave.
+22222222
+
+666 123
+Tyrone
+qc
+912131
+
+999 ZZZ
+ZZZ
+ZZZ
+999
+
+9876 abc
+CCC
+BGC
+87000
 
