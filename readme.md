@@ -1,7 +1,7 @@
 # CCPROG 2 MACHINE PROJECT 
 
-## current features 
-- register 
-- login
-- add items 
-- display items 
+### Things to download
+  - main.c
+  - file-processing.h
+  - shopping.h
+  -search-funcs.h
