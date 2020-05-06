@@ -4,4 +4,4 @@
   - main.c
   - file-processing.h
   - shopping.h
-  -search-funcs.h
+  - search-funcs.h
