@@ -185,9 +185,6 @@ void editStock(Items item[], int numItems){
 	int option;
 	int quantity;
 	float price;
-	String20 name;
-	String15 category;
-	String30 description;
 	
 	printf("\n= = = = Edit Stock = = = =\n\n");
 	
@@ -760,8 +757,6 @@ void addToCart(Users aUser[], int numUsers, Users *currUser){
 	int itemIndex, userIndex, index;
 	int i, j;
 	int found = 0, inCart = -1;
-	int ctr = 0;
-	Items tempItem[MAX_ITEMS * numUsers];
 	char choice = 'A';
 	
 
@@ -769,7 +764,7 @@ void addToCart(Users aUser[], int numUsers, Users *currUser){
 	if(currUser->numCart >= MAX_CART)
 		printf("Maximum number of items in cart reached. Press enter to go back\n");
 
-	while(currUser->numCart < MAX_CART && choice == 'A' || choice == 'a'){
+	while(currUser->numCart < MAX_CART && (choice == 'A' || choice == 'a')){
 		if(currUser->numCart < MAX_CART){
 
 			found = 0;
@@ -947,7 +942,6 @@ void checkOutByProdId(Users aUser[], int numUsers ,Dates date, Users *currUser){
 	int prodId; 
 //	int countCart = 0;
 	Transactions aTrans[MAX_CART];
-	Items tempCart[MAX_CART];
 	
 		
 	if(currUser->numCart > 0){
@@ -1322,10 +1316,9 @@ The user is presented with the total amount of bought by each buyer within the d
 
 
 void shopaholics(Users aUser[], int numUsers){
-	int numTrans, i, j;
+	int numTrans, i;
 	int found = 0;
 	int index;
-	float sales = 0;
 	Dates startDate;
 	Dates endDate;
 	Transactions aTrans;
@@ -1395,10 +1388,9 @@ The user is presented with the total sales that the seller made within the certa
 */
 
 void totalSalesPerSeller(Users aUser[], int numUsers){
-	int numTrans, i, j;
+	int numTrans, i;
 	int found = 0;
 	int index;
-	float sales = 0;
 	Dates startDate;
 	Dates endDate;
 	Transactions aTrans;
@@ -1467,7 +1459,6 @@ The user will be shown the total sales that is done within the certain date rang
 */
 
 void showTotalSales(){
-	int numTrans, i;
 	float sales = 0;
 	Dates startDate;
 	Dates endDate;
@@ -1512,7 +1503,6 @@ void compareSalesPerMonth(){
 	int year;
 	int month1, month2;
 	float salesMonth1 = 0, salesMonth2 = 0;
-	String15 stringMonth1, stringMonth2;
 	
 	Transactions aTrans;
 	FILE *fp;
@@ -1629,7 +1619,6 @@ The user is presented with the options of sell menu and buy menu
 
 void userMenu(Users *aUser, int numUsers, int index){
 	int option = 0;
-	String10 password;
 	
 	
 	do{
@@ -1725,9 +1714,9 @@ void registerUser(Users aUser[],  int *numUsers){
 	if( (*numUsers) < MAX_USERS){
 		printf("= = = = REGISTER = = = =\n");
 		(*numUsers)++;
-		printf("%d\n", *numUsers);
+
 		index = *numUsers - 1;
-		printf("%d\n", index);
+	
 		
 		do{
 			printf("Enter User ID: ");
@@ -1778,11 +1767,8 @@ Main function handles the main menu of the program.
 */
 int main(){
 	Users aUser[MAX_USERS];
-	Transactions aTransaction[MAX_USERS];
-	Dates date[2];
 	int numUsers = 0;
 	int option; 
-	int i;
 	String10 password;
 	
 	numUsers = readFile(aUser);
