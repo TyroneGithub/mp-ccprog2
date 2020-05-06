@@ -2,8 +2,8 @@
 #define STRING20 22
 #define STRING15 17	
 #define STRING30 32
-#define MAX_USERS 10
-#define MAX_ITEMS 5
+#define MAX_USERS 100
+#define MAX_ITEMS 20
 #define MAX_CART 10
 
 typedef char String10[STRING10];

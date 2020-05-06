@@ -448,7 +448,7 @@ void initTrans(Items cart[], Transactions aTrans[], int *numTrans, int numItems)
 		while(i < numItems){
 			// aTrans[j].buyerId = currUser->userId;
 
-			if(aTrans[j].sellerId != cart[i].sellerId || x > 5){
+			if(aTrans[j].sellerId != cart[i].sellerId || x >= 5){
 				j++;
 				x = 0;
 				aTrans[j].numItems = 0;
@@ -579,25 +579,28 @@ void displayTopItems(){
 		}
 		fclose(fp);
 	}
-	sortItemByQuantity(itemStorage, ctr);
+	if(ctr > 0){
 
-	printf("\n\t= = = Top 3 Best Selling Items = = =\n\n");
+		sortItemByQuantity(itemStorage, ctr);
 
-	printf("|%-10s|","Product Id");
-	printf("|%-20s|","Name");
-	printf("|%-10s|","Price");
-	printf("|%-13s|","Quantity Sold");
-	printf("\n-------------------------------------------------------------\n");
-	for(i = 0; i < 3; i++){
-		if(itemStorage[i].productId != -999){
-			printf("|%10d|", itemStorage[i].productId);
-			printf("|%-20s|", itemStorage[i].name);
-			printf("|%10.2f|", itemStorage[i].price);
-			printf("|%13d|", itemStorage[i].quantity);
-			printf("\n");
+		printf("\n\t= = = Top 3 Best Selling Items = = =\n\n");
+
+		printf("|%-10s|","Product Id");
+		printf("|%-20s|","Name");
+		printf("|%-10s|","Price");
+		printf("|%-13s|","Quantity Sold");
+		printf("\n-------------------------------------------------------------\n");
+		for(i = 0; i < 3; i++){
+			if(itemStorage[i].productId != -999){
+				printf("|%10d|", itemStorage[i].productId);
+				printf("|%-20s|", itemStorage[i].name);
+				printf("|%10.2f|", itemStorage[i].price);
+				printf("|%13d|", itemStorage[i].quantity);
+				printf("\n");
+			}
 		}
+		printf("\n");
 	}
-	printf("\n");
 
 
 }
@@ -615,7 +618,7 @@ Displays the top 3 best selling items based on sales made by the seller.
 
 void displayTopItemsPerSeller(int userId){
 
-	int  i, j, ctr;
+	int  i, j, ctr = 0;
 	int found = 0;
 	Transactions aTrans;
 	Items itemStorage[MAX_ITEMS * MAX_USERS];
@@ -665,26 +668,28 @@ void displayTopItemsPerSeller(int userId){
 		}
 		fclose(fp);
 	}
-	sortItemByPrice(itemStorage, ctr);
 
-	printf("\n= = = My top 3 best selling items based on total sales = = =\n\n");
+		sortItemByPrice(itemStorage, ctr);
 
-	printf("|%-10s|","Product Id");
-	printf("|%-20s|","Name");
-	printf("|%-11s|","Total Sales");
-	printf("|%-13s|","Quantity Sold");
-	printf("\n--------------------------------------------------------------\n");
-	for(i = 0; i < 3; i++){
-		if(itemStorage[i].productId != -999){
-			printf("|%10d|", itemStorage[i].productId);
-			printf("|%-20s|", itemStorage[i].name);
-			printf("|%11.2f|", itemStorage[i].price);
-			printf("|%13d|", itemStorage[i].quantity);
-			printf("\n");
+		printf("\n= = = My top 3 best selling items based on total sales = = =\n\n");
+
+		printf("|%-10s|","Product Id");
+		printf("|%-20s|","Name");
+		printf("|%-11s|","Total Sales");
+		printf("|%-13s|","Quantity Sold");
+		printf("\n--------------------------------------------------------------\n");
+		for(i = 0; i < 3; i++){
+			if(itemStorage[i].productId != -999){
+				printf("|%10d|", itemStorage[i].productId);
+				printf("|%-20s|", itemStorage[i].name);
+				printf("|%11.2f|", itemStorage[i].price);
+				printf("|%13d|", itemStorage[i].quantity);
+				printf("\n");
+			}
+		
 		}
+		printf("\n");
 	
-	}
-	printf("\n");
 
 }
 

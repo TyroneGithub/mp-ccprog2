@@ -88,11 +88,10 @@ void readItem(Users aUser[], int numUsers){
 						// printf("%d", prodId);
 				}
 			}
-				
+		fclose(fp_item);
 		}
 	}
 	
-	fclose(fp_item);
 
 }
 
@@ -110,7 +109,6 @@ void writeUser(Users aUser[], int numUsers){
 	FILE *fp_userRead;
 	
 	sort(aUser, numUsers);
-
 	if((fp_userRead = fopen("Users.txt", "w")) != NULL){
 		for(i = 0; i < numUsers ; i++){
 			fprintf(fp_userRead, "%d %s\n", aUser[i].userId, aUser[i].password);
@@ -118,9 +116,9 @@ void writeUser(Users aUser[], int numUsers){
 			fprintf(fp_userRead, "%d\n\n",aUser[i].contactNum);
 
 		}
+		fclose(fp_userRead);
 	}
 
-	fclose(fp_userRead);
 }
 
 
@@ -148,10 +146,10 @@ void writeItem(Users aUser[], int numUsers){
 				}
 			}
 		}
+		fclose(fp_item);
 	}
 
 	
-	fclose(fp_item);
 
 	
 }

@@ -1,30 +1,36 @@
-999 35
-BUCHERON
-FOOD
-chicken-based snack
-88 219.00
-
-222 329
-BIGAS
-FOOD
-Japanese rice - 1 kg
-78 100.00
-
-15 329
+1121 35
 KANIN
 FOOD
-edible
-85 90.00
+White rice
+40 30.00
 
-90 329
-ADOBO
-FOOD
-masarap
-48 65.00
+231 329
+RED HORSE
+DRINKS
+Alcohol
+35 60.00
 
-4444 9876
-KROPEK
+11231 329
+SAN MIG PALE PILSEN
+DRINKS
+Alcohol
+45 60.00
+
+443 329
+SISIG
 FOOD
-seafood-based snack
-2 15.00
+Pulutan
+25 120.00
+
+653 329
+ALCOHOL
+HEALTH
+Hygiene
+36 30.00
+
+76 329
+FACE MASK
+HEALTH
+Hygiene
+85 10.00
 

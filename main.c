@@ -206,7 +206,7 @@ void editStock(Items item[], int numItems){
 		do{
 			printf("= = = = Currently editing  = = = = \n");
 			itemHeader();
-			displayItems(&item[itemIndex], numItems);
+			printItems(&item[itemIndex]);
 			printf("\n");
 			
 			printf("[1]Replenish\n[2]Change Price\n[3]Change item name\n");
@@ -299,6 +299,7 @@ void sellMenu(Users *aUser, int numUsers, int index){
 		printf("[1]add item\n[2]Edit stock\n[3]Show my products\n[4]Show low stock\n[5] Show item statistics\n[6]Exit\n");
 		printf("Input: ");
 		scanf("%d", &option);
+		fflush(stdin);
 		switch(option){
 		
 			case 1: 
@@ -609,6 +610,7 @@ void editCartQty(Items cart[], int numCart, int numUsers, Users aUser[] ){
 	int cartIndex, userIndex, itemIndex;
 	int i, j;
 	int found = 0;
+	char choice;
 	
 	printf("Select product ID: ");			
 	scanf("%d", &prodId);
@@ -641,8 +643,25 @@ void editCartQty(Items cart[], int numCart, int numUsers, Users aUser[] ){
 			}
 			
 		}
-		else
-			printf("Quantity cannot be less than or equal to 0\n");	
+		else{
+			printf("Do you want to remove this item? (Y/N)\n");
+			scanf("%c", &choice);
+			fflush(stdin);
+
+			if(choice == 'Y' || choice == 'y'){
+				removeItemsById(cart, &numCart, prodId);
+				printf("Item removed. Press enter to edit cart again...");
+				getchar();
+				system("cls");
+			}
+			else if(choice == 'N' || choice == 'n'){
+				printf("Press enter to edit cart again...");
+				getchar();
+				system("cls");
+			}
+
+
+		}
 	}
 	else
 		printf("Item not in cart\n");
@@ -745,115 +764,129 @@ void addToCart(Users aUser[], int numUsers, Users *currUser){
 	Items tempItem[MAX_ITEMS * numUsers];
 	char choice = 'A';
 	
+
 	printf("= = = = Add to Cart = = = = \n");
-	
+	if(currUser->numCart >= MAX_CART)
+		printf("Maximum number of items in cart reached. Press enter to go back\n");
+
 	while(currUser->numCart < MAX_CART && choice == 'A' || choice == 'a'){
-		
-		found = 0;
-		
-		itemHeader();
-		for(i = 0; i < numUsers; i++){
-			if(aUser[i].userId != currUser->userId)
-				displayItems(aUser[i].item, aUser[i].numItems);
-		}
-		printf("\n");
-		
-		
-		displayTopItems(aUser,  numUsers);
-		
-		printf("Enter product id: ");
-		scanf("%d", &prodId);
-		fflush(stdin);
-		
-		system("cls");
-		
-		inCart = searchItem(currUser->cart, currUser->numCart, prodId);
-		
-		if(searchProdId(aUser, numUsers, prodId) != 0){
+		if(currUser->numCart < MAX_CART){
+
+			found = 0;
 			
-			if(inCart == -1){
-				printf("= = = = Chosen item = = = = ");
-				//search item indeces 
-				for(i = 0; i < numUsers && found == 0; i++){
-					for(j = 0; j < aUser[i].numItems && found == 0; j++){
-						if(prodId == aUser[i].item[j].productId){
-							userIndex = i;
-							itemIndex = j;
-							found = 1;
+			itemHeader();
+			for(i = 0; i < numUsers; i++){
+				if(aUser[i].userId != currUser->userId)
+					displayItems(aUser[i].item, aUser[i].numItems);
+			}
+			printf("\n");
+			
+			
+			displayTopItems(aUser,  numUsers);
+			
+			printf("Enter product id: ");
+			scanf("%d", &prodId);
+			fflush(stdin);
+			
+			system("cls");
+			
+			inCart = searchItem(currUser->cart, currUser->numCart, prodId);
+			
+			if(searchProdId(aUser, numUsers, prodId) != 0){
+				
+				if(inCart == -1){
+					printf("= = = = Chosen item = = = = ");
+					//search item indeces 
+					for(i = 0; i < numUsers && found == 0; i++){
+						for(j = 0; j < aUser[i].numItems && found == 0; j++){
+							if(prodId == aUser[i].item[j].productId){
+								userIndex = i;
+								itemIndex = j;
+								found = 1;
+							}
 						}
 					}
-				}
-				printf("\n");
-				itemHeader();
-				printItems(&aUser[userIndex].item[itemIndex]);
-				printf("\n");
-				printf("Enter item quantity: ");
-				scanf("%d", &quantity);
-				fflush(stdin);
-					
-				if(quantity > 0){
-					
-				
-					
-					if(quantity <= aUser[userIndex].item[itemIndex].quantity){
+					printf("\n");
+					itemHeader();
+					printItems(&aUser[userIndex].item[itemIndex]);
+					printf("\n");
+					printf("Enter item quantity: ");
+					scanf("%d", &quantity);
+					fflush(stdin);
 						
-						if(currUser->userId != aUser[userIndex].userId){
-							
-							currUser->cart[currUser->numCart] = aUser[userIndex].item[itemIndex];
-							currUser->cart[currUser->numCart].quantity = quantity;
-							currUser->numCart++;
-							
-							sortItemBySeller(currUser->cart, currUser->numCart);
-							
-							
-							printf("Enter A to continue buying, E to edit cart or C to procced to checkout: ");
-							scanf("%c", &choice);
-							fflush(stdin);
-							
-							switch(choice){
-								case 'A': case 'a':
-									break;
-								case 'E': case 'e':
-									system("cls");
-									index = searchUser(aUser, numUsers, currUser->userId);
-									editCart(currUser->cart, &currUser->numCart, currUser, numUsers, index);
-									break;
-								case 'C': case 'c':
-									system("cls");
-									index = searchUser(aUser, numUsers, currUser->userId);
-									checkOutMenu(currUser, numUsers, index);
-									break;
-								default:
-									break;
-							}
+					if(quantity > 0){
+						
 					
+						
+						if(quantity <= aUser[userIndex].item[itemIndex].quantity){
+							
+							if(currUser->userId != aUser[userIndex].userId){
+								
+								currUser->cart[currUser->numCart] = aUser[userIndex].item[itemIndex];
+								currUser->cart[currUser->numCart].quantity = quantity;
+								currUser->numCart++;
+								
+								sortItemBySeller(currUser->cart, currUser->numCart);
+								
+								
+								printf("Enter A to continue buying, E to edit cart or C to procced to checkout: ");
+								scanf("%c", &choice);
+								fflush(stdin);
+								
+								switch(choice){
+									case 'A': case 'a':
+										break;
+									case 'E': case 'e':
+										system("cls");
+										index = searchUser(aUser, numUsers, currUser->userId);
+										editCart(currUser->cart, &currUser->numCart, currUser, numUsers, index);
+										break;
+									case 'C': case 'c':
+										system("cls");
+										index = searchUser(aUser, numUsers, currUser->userId);
+										checkOutMenu(currUser, numUsers, index);
+										break;
+									default:
+										break;
+								}
+						
+							}
+							else{
+								printf("You cannot buy your own items\n");
+								choice = ' ';
+							}
 						}
 						else{
-							printf("You cannot buy your own items\n");
+							printf("Quantity is greater than supply please try again\n");
 							choice = ' ';
-						}
+						} 
+						
 					}
 					else{
-						printf("Quantity is greater than supply please try again\n");
+						printf("Cannot input negative items please try again\n");
 						choice = ' ';
-					} 
-					
+					}
 				}
 				else{
-					printf("Cannot input negative items please try again\n");
+					printf("Item is already in your cart please try again\n");
 					choice = ' ';
 				}
+				
 			}
 			else{
-				printf("Item is already in your cart please try again\n");
+				printf("Item does not exist\n");
 				choice = ' ';
 			}
-			
 		}
 		else{
-			printf("Item does not exist\n");
+			printf("Maximum number of items in cart reached. Press enter to go back\n");
+			fflush(stdin);
+			getchar();
+			system("cls");
 			choice = ' ';
+
 		}
+
 	}
 	
 }
@@ -1262,15 +1295,18 @@ Displays sellers necessary information
 */
 
 void displaySellers(Users aUser[], int numUsers){
-	int i;
+	int i, seller = 0;
 	
 	for(i = 0; i < numUsers; i++){
 		if(aUser[i].numItems > 0){
 			printUsers(&aUser[i]);
 			printf("|%12d|", aUser[i].numItems);
 			printf("\n");
+			seller++;
 		}
 	}
+	if(seller <= 0 )
+		printf("No sellers\n");
 	
 }
 
@@ -1455,7 +1491,12 @@ void showTotalSales(){
 		
 	}
 	fclose(fp);
-	printf("Total Sales from %d-%d-%d to %d-%d-%d:\n = = = = %.2f = = = =\n", startDate.month, startDate.day, startDate.year, endDate.month,
+
+	if(sales == 0.00)
+		printf("No transactions made from %d-%d-%d to %d-%d-%d", startDate.month, startDate.day, startDate.year, endDate.month,
+																	endDate.day, endDate.year);
+	else
+		printf("Total Sales from %d-%d-%d to %d-%d-%d:\n = = = = %.2f = = = =\n", startDate.month, startDate.day, startDate.year, endDate.month,
 														endDate.day, endDate.year, sales);
 	
 }
@@ -1502,16 +1543,16 @@ void compareSalesPerMonth(){
 	fclose(fp);
 	
 	if(salesMonth1 == 0.00)
-		printf("No sales for this month\n");
+		printf("No sales for the month of %s\n", stringMonth(month1));
 		
 	else
-		printf("%s sales = %f\n", stringMonth(month1), salesMonth1);
+		printf("%s sales = %.2f\n", stringMonth(month1), salesMonth1);
 		
 	if(salesMonth2 == 0.00)
-		printf("No sales for this month\n");
+		printf("No sales for the month of %s\n", stringMonth(month2));
 	
 	else
-		printf("%s sales = %f\n", stringMonth(month2), salesMonth2 );
+		printf("%s sales = %.2f\n", stringMonth(month2), salesMonth2 );
 	
 }
 
@@ -1684,39 +1725,40 @@ void registerUser(Users aUser[],  int *numUsers){
 	if( (*numUsers) < MAX_USERS){
 		printf("= = = = REGISTER = = = =\n");
 		(*numUsers)++;
-		
+		printf("%d\n", *numUsers);
 		index = *numUsers - 1;
+		printf("%d\n", index);
 		
 		do{
 			printf("Enter User ID: ");
 			scanf("%d", &id);
 			fflush(stdin);
 			
-			if(searchUser(aUser, *numUsers, id) != -1)
+			if(searchUser(aUser, index, id) != -1)
 				printf("User already exists\n");
 			
-		}while(searchUser(aUser, *numUsers, id) != -1);
+		}while(searchUser(aUser, index, id) != -1);
 		
 		aUser[index].userId = id;
 		
 		
 		printf("Enter name: ");
-		getStringInput(aUser[(*numUsers) - 1].name, STRING20);		
+		getStringInput(aUser[index].name, STRING20);		
 		
 		printf("Enter password: ");
-		getStringInput(aUser[(*numUsers) - 1].password, STRING10);	
+		getStringInput(aUser[index].password, STRING10);	
 
 		
 		printf("Enter address: ");
-		getStringInput(aUser[(*numUsers) - 1].address, STRING30);	
+		getStringInput(aUser[index].address, STRING30);	
 		
 		
 		printf("Enter contact number: ");
-		scanf("%d", &aUser[(*numUsers) - 1].contactNum);
+		scanf("%d", &aUser[index].contactNum);
 		fflush(stdin);
 		
-		aUser[(*numUsers) - 1].numItems = 0;
-		aUser[(*numUsers) - 1].numCart = 0;
+		aUser[index].numItems = 0;
+		aUser[index].numCart = 0;
 		
 		printf("Register Successful! Press enter to continue...\n");
 		getchar();
@@ -1745,8 +1787,8 @@ int main(){
 	
 	numUsers = readFile(aUser);
 	readItem(aUser, numUsers);
+	writeUser(aUser, numUsers);
 	
-//	displayTopItemsPerSeller(329);
 	
 	printf("= = = = SHOPPING APP = = = =\n");
 	

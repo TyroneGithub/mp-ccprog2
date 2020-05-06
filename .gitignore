@@ -7,3 +7,6 @@ sub.c
 dd.txt
 a.txt
 user format.txt
+*.bag
+*.dat
+*.txt
