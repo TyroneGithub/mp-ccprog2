@@ -484,8 +484,8 @@ Checks if there are differences with the current user's cart and the items in st
 @return(int) returns 1 if there are changes and 0 if there are not
 */
 int checkChanges(Items cart[], Users aUser[], int numItems, int numUsers){
-	int i, j;
-	int userIndex, itemIndex, currUser;
+	int i;
+	int userIndex, itemIndex;
 	int changes = 0;
 	for(i = 0; i < numItems; i++){
 		userIndex = searchUser(aUser, numUsers, cart[i].sellerId);

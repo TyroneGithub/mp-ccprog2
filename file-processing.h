@@ -104,7 +104,7 @@ Saves users information to a text file
 */
 
 void writeUser(Users aUser[], int numUsers){
-	int i, j;
+	int i;
 	
 	FILE *fp_userRead;
 	
